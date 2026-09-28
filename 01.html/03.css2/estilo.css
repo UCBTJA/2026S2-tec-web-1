@@ -1,0 +1,16 @@
+th {
+    background-color: yellow;
+}
+
+#resaltado {
+    background-color:lime;
+}
+
+.oscuro {
+    background-color: silver;
+}
+
+table, td, th {
+    border: 1px red solid;
+    border-collapse: collapse;
+}
