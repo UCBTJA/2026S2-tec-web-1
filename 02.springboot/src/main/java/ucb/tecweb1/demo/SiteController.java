@@ -1,6 +1,8 @@
 package ucb.tecweb1.demo;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,9 +33,8 @@ public class SiteController {
         return sb.toString();
     }
 
-    // @PostMapping("/saludo")
-    // public String greeting(@RequestParam String name, @RequestParam int edad) {
-    // System.out.println("Hola " + name + ", tienes " + edad + " años");
-    // return "Hola " + name + ", tienes " + edad + " años";
-    // }
+    @PostMapping("/saludo")
+    public String greeting(@RequestParam String name, @RequestParam int edad) {
+        return "Hola " + name + ", tienes " + edad + " años";
+    }
 }
