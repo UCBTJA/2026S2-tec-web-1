@@ -34,11 +34,17 @@ public class HomeController {
     public String index() {
         Connection conn = DB.getConnection();
         StringBuilder sb = new StringBuilder();
-        sb.append("<html><body><h1>Productos</h1><ul>");
+        sb.append("<html>")
+                .append("<head>")
+                .append("<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB' crossorigin='anonymous'>")
+                .append("<head>")
+                .append("<body><h1>Productos</h1><ul>");
+
         sb.append(buildMenu());
-        sb.append("<table border='1'>");
+        sb.append("<table class='table table-striped table-bordered'><tr><th>ID</th><th>Nombre</th></tr>");
         try {
-            PreparedStatement stmt = conn.prepareStatement("select * from almacen.producto");
+            PreparedStatement stmt = conn.prepareStatement(
+                    "select * from almacen.producto");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 sb.append("<tr><td>")
@@ -74,6 +80,7 @@ public class HomeController {
             System.out.println("Error al ejecutar la consulta");
             e.printStackTrace();
         }
+
         return JsonMapper.builder().build().writeValueAsString(catalogo);
     }
 
