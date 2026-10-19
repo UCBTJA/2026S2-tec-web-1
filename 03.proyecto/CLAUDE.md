@@ -2,23 +2,34 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Project overview
+## Contexto del repositorio
 
-Spring Boot 4.1.1 web application (Java 25 toolchain), built with Gradle. Group `ucb.tecweb1`, root project name `demo`. Runs on port `8090` (configured in `src/main/resources/application.yaml`).
+- La raíz git es `Almacen/` (dos niveles arriba de este directorio). Está organizada por fases del proyecto de la materia Taller de Sistemas (UCB): `01.bus`, `02.req`, `03.des`, `04.imp`, `05.dep`, `06.pro`. Este proyecto Spring Boot vive en `04.imp/almacen` (implementación); las demás carpetas de fase están actualmente vacías.
+- El proyecto está en estado inicial (scaffold de Spring Initializr): solo existe `AlmacenApplication` y un test `contextLoads`.
 
-## Commands
+## Stack
 
-- Run the app: `./gradlew bootRun`
-- Build: `./gradlew build`
-- Run all tests: `./gradlew test`
-- Run a single test class: `./gradlew test --tests "ucb.tecweb1.demo.DemoApplicationTests"`
-- Clean build: `./gradlew clean build`
+- Java 25 (toolchain de Gradle), Spring Boot 4.1.1, Gradle 9.7.1 vía wrapper.
+- Dependencias: `spring-boot-starter-webmvc` (REST/servlet) y el driver `postgresql` (runtimeOnly). No hay JPA/JDBC starter todavía, por lo que no se configura ningún datasource.
+- Paquete base: `ucb.tallersis.almacen`.
+- Configuración en `src/main/resources/application.yaml` (YAML, no `.properties`); el servidor corre en el puerto **8090**.
 
-Tests use JUnit 5 (JUnit Platform), configured via `useJUnitPlatform()` in `build.gradle`.
+## Comandos
 
-## Architecture
+Ejecutar desde `04.imp/almacen`:
 
-- `DemoApplication.java` — standard `@SpringBootApplication` entry point.
-- `SiteController.java` — single `@RestController` handling all HTTP routes (`/`, `/contact`, `/greeting`). Currently returns raw HTML strings directly from controller methods rather than using templates or serving from `static/`.
-- `src/main/resources/static/` — static HTML files (`about.html`, `form.html`) served directly by Spring Boot's default static resource handling; these are not currently linked from the controller.
-- `runtimeOnly 'org.postgresql:postgresql'` is declared as a dependency, but no datasource/JPA configuration exists yet in `application.yaml` — the app does not currently connect to a database.
+```bash
+./gradlew build                 # compilar + tests
+./gradlew bootRun               # levantar la app en http://localhost:8090
+./gradlew test                  # todos los tests (JUnit 5)
+./gradlew test --tests 'ucb.tallersis.almacen.AlmacenApplicationTests'           # una clase
+./gradlew test --tests 'ucb.tallersis.almacen.AlmacenApplicationTests.contextLoads'  # un método
+./gradlew clean
+```
+
+No hay linter ni formateador configurado.
+
+## Notas
+
+- `bin/` y `build/` son salidas de compilación (IDE / Gradle); no editarlas.
+- Al agregar Spring Data JPA o JDBC, habrá que definir `spring.datasource.*` en `application.yaml`; de lo contrario `@SpringBootTest` fallará al cargar el contexto.

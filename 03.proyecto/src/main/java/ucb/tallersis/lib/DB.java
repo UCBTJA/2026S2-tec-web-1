@@ -1,4 +1,4 @@
-package ucb.tecweb1.lib;
+package ucb.tallersis.lib;
 
 import java.sql.Connection;
 
@@ -12,7 +12,8 @@ public class DB {
             return null;
         }
         try {
-            return java.sql.DriverManager.getConnection("jdbc:postgresql://localhost:5432/ucb", "ucb",
+            return java.sql.DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/ucb", "ucb",
                     "Tarija2026");
         } catch (java.sql.SQLException e) {
             System.out.println("Error connecting to PostgreSQL database.");

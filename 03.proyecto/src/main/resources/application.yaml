@@ -1,5 +1,9 @@
 spring:
   application:
-    name: demo
+    name: almacen
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ucb
+    username: ucb
+    password: ${DB_PASSWORD:Tarija2026}
 server:
   port: 8090
