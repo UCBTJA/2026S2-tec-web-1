@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tools.jackson.databind.json.JsonMapper;
 import ucb.tallersis.lib.DB;
+import ucb.tallersis.model.ProductoDTO;
 
 @RestController
 public class HomeController {
@@ -62,18 +63,15 @@ public class HomeController {
         return sb.toString();
     }
 
-    public record Producto(int id, String nombre) {
-    }
-
     @GetMapping(value = "/json", produces = "application/json")
     public String indexJson() {
-        List<Producto> catalogo = new ArrayList<>();
+        List<ProductoDTO> catalogo = new ArrayList<>();
         Connection conn = DB.getConnection();
         try {
             PreparedStatement stmt = conn.prepareStatement("select * from almacen.producto");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Producto p = new Producto(rs.getInt("id"), rs.getString("nombre"));
+                ProductoDTO p = new ProductoDTO(rs.getInt("id"), rs.getString("nombre"));
                 catalogo.add(p);
             }
         } catch (Exception e) {
