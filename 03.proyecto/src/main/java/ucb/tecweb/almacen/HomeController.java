@@ -24,15 +24,17 @@ import ucb.tecweb.view.ProductoPresenter;
 
 @RestController
 public class HomeController {
+    private ProductoService service;
+
+    public HomeController() {
+        ProductoRepository repo = new PgProductoRepository();
+        this.service = new ProductoService(repo);
+    }
 
     @GetMapping("/")
     public String index() {
-        ProductoRepository repo = new PgProductoRepository();
-        ProductoService service = new ProductoService(repo);
         ProductoPresenter presenter = new ProductoPresenter();
-
-        List<ProductoDTO> catalogo = service.search("");
-
+        List<ProductoDTO> catalogo = this.service.search("");
         return presenter.index(catalogo);
     }
 
