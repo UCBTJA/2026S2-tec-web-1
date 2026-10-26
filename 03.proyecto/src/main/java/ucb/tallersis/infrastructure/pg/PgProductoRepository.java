@@ -3,6 +3,9 @@ package ucb.tallersis.infrastructure.pg;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import java.util.List;
 
 import ucb.tallersis.lib.DB;
 import ucb.tallersis.model.Producto;
@@ -66,10 +69,11 @@ public class PgProductoRepository implements ProductoRepository {
     public int nextIdentity() {
         Connection conn = DB.getConnection();
         try {
-            PreparedStatement stmt = conn.prepareStatement("select nextval('producto_id_seq') as id");
+            PreparedStatement stmt = conn.prepareStatement(
+                    "select nextval('producto_id_seq')");
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getInt("id");
+                return rs.getInt(1);
             }
         } catch (Exception e) {
             System.out.println("Error al ejecutar la consulta");
@@ -78,7 +82,22 @@ public class PgProductoRepository implements ProductoRepository {
         return -1;
     }
 
-    public ProductoDTO[] search(String filtro) {
-
+    public List<ProductoDTO> search(String filtro) {
+        List<ProductoDTO> catalogo = new ArrayList<>();
+        Connection conn = DB.getConnection();
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append("select * from almacen.producto");
+            PreparedStatement stmt = conn.prepareStatement(sb.toString());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                ProductoDTO p = new ProductoDTO(rs.getInt("id"), rs.getString("nombre"));
+                catalogo.add(p);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al ejecutar la consulta");
+            e.printStackTrace();
+        }
+        return catalogo;
     }
 }

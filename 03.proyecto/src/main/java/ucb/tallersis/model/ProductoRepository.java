@@ -1,5 +1,7 @@
 package ucb.tallersis.model;
 
+import java.util.List;
+
 public interface ProductoRepository {
     public Producto getByID(int id);
 
@@ -9,5 +11,5 @@ public interface ProductoRepository {
 
     public int nextIdentity();
 
-    public ProductoDTO[] search(String filtro);
+    public List<ProductoDTO> search(String filtro);
 }
