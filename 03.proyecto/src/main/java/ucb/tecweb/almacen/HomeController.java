@@ -62,44 +62,26 @@ public class HomeController {
 
     @PostMapping("/create")
     public ResponseEntity<Void> create(@RequestParam String nombre) {
-        Connection conn = DB.getConnection();
-        try {
-            PreparedStatement stmt = conn.prepareStatement("insert into almacen.producto (nombre) values (?)");
-            stmt.setString(1, nombre);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error al insertar el producto");
-            e.printStackTrace();
-        }
+        ProductoRepository repo = new PgProductoRepository();
+        ProductoService service = new ProductoService(repo);
+
+        service.crearProducto(nombre);
         return redirectToIndex();
     }
 
     @PostMapping("/update")
-    public ResponseEntity<Void> update(@RequestParam long id, @RequestParam String nombre) {
-        Connection conn = DB.getConnection();
-        try {
-            PreparedStatement stmt = conn.prepareStatement("update almacen.producto set nombre = ? where id = ?");
-            stmt.setString(1, nombre);
-            stmt.setLong(2, id);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error al actualizar el producto");
-            e.printStackTrace();
-        }
+    public ResponseEntity<Void> update(@RequestParam int id, @RequestParam String nombre) {
+        ProductoRepository repo = new PgProductoRepository();
+        ProductoService service = new ProductoService(repo);
+        service.actualizarProducto(id, nombre);
         return redirectToIndex();
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Void> delete(@RequestParam long id) {
-        Connection conn = DB.getConnection();
-        try {
-            PreparedStatement stmt = conn.prepareStatement("delete from almacen.producto where id = ?");
-            stmt.setLong(1, id);
-            stmt.executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Error al eliminar el producto");
-            e.printStackTrace();
-        }
+    public ResponseEntity<Void> delete(@RequestParam int id) {
+        ProductoRepository repo = new PgProductoRepository();
+        ProductoService service = new ProductoService(repo);
+        service.eliminarProducto(id);
         return redirectToIndex();
     }
 
