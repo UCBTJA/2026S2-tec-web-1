@@ -1,4 +1,4 @@
-package ucb.tallersis.model;
+package ucb.tecweb.model;
 
 public class Producto {
 

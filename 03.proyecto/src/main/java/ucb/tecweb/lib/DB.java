@@ -1,4 +1,4 @@
-package ucb.tallersis.lib;
+package ucb.tecweb.lib;
 
 import java.sql.Connection;
 

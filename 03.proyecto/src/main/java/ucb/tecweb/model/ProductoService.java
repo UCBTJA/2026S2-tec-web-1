@@ -1,4 +1,6 @@
-package ucb.tallersis.model;
+package ucb.tecweb.model;
+
+import java.util.List;
 
 public class ProductoService {
     private ProductoRepository productoRepository;
@@ -15,5 +17,9 @@ public class ProductoService {
             return true;
         }
         return false;
+    }
+
+    public List<ProductoDTO> search(String filtro) {
+        return this.productoRepository.search(filtro);
     }
 }

@@ -1,4 +1,4 @@
-package ucb.tallersis.infrastructure.pg;
+package ucb.tecweb.infrastructure.pg;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import ucb.tallersis.lib.DB;
-import ucb.tallersis.model.Producto;
-import ucb.tallersis.model.ProductoDTO;
-import ucb.tallersis.model.ProductoRepository;
+import ucb.tecweb.lib.DB;
+import ucb.tecweb.model.Producto;
+import ucb.tecweb.model.ProductoDTO;
+import ucb.tecweb.model.ProductoRepository;
 
 public class PgProductoRepository implements ProductoRepository {
     public Producto getByID(int id) {
