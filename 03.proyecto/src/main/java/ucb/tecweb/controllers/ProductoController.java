@@ -1,9 +1,5 @@
-package ucb.tecweb.almacen;
+package ucb.tecweb.controllers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -14,19 +10,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 //import org.springfr
 import org.springframework.web.bind.annotation.RestController;
 
-import tools.jackson.databind.json.JsonMapper;
+import ucb.tecweb.endpoints.ProductoJsonPresenter;
 import ucb.tecweb.infrastructure.pg.PgProductoRepository;
-import ucb.tecweb.lib.DB;
-import ucb.tecweb.model.ProductoDTO;
-import ucb.tecweb.model.ProductoRepository;
-import ucb.tecweb.model.ProductoService;
+import ucb.tecweb.model.producto.ProductoDTO;
+import ucb.tecweb.model.producto.ProductoRepository;
+import ucb.tecweb.model.producto.ProductoService;
 import ucb.tecweb.view.ProductoPresenter;
 
 @RestController
-public class HomeController {
+public class ProductoController {
     private ProductoService service;
 
-    public HomeController() {
+    public ProductoController() {
         ProductoRepository repo = new PgProductoRepository();
         this.service = new ProductoService(repo);
     }
@@ -40,21 +35,9 @@ public class HomeController {
 
     @GetMapping(value = "/json", produces = "application/json")
     public String indexJson() {
-        List<ProductoDTO> catalogo = new ArrayList<>();
-        Connection conn = DB.getConnection();
-        try {
-            PreparedStatement stmt = conn.prepareStatement("select * from almacen.producto");
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                ProductoDTO p = new ProductoDTO(rs.getInt("id"), rs.getString("nombre"));
-                catalogo.add(p);
-            }
-        } catch (Exception e) {
-            System.out.println("Error al ejecutar la consulta");
-            e.printStackTrace();
-        }
-
-        return JsonMapper.builder().build().writeValueAsString(catalogo);
+        ProductoJsonPresenter presenter = new ProductoJsonPresenter();
+        List<ProductoDTO> catalogo = this.service.search("");
+        return presenter.index(catalogo);
     }
 
     @PostMapping("/saludo")

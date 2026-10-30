@@ -1,4 +1,4 @@
-package ucb.tecweb.model;
+package ucb.tecweb.model.producto;
 
 public class Producto {
 

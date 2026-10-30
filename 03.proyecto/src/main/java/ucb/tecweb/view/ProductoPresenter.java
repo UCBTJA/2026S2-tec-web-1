@@ -2,7 +2,7 @@ package ucb.tecweb.view;
 
 import java.util.List;
 
-import ucb.tecweb.model.ProductoDTO;
+import ucb.tecweb.model.producto.ProductoDTO;
 
 public class ProductoPresenter {
     private String buildMenu() {

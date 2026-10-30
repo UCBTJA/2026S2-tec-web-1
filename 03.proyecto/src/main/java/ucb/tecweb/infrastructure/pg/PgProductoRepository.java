@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ucb.tecweb.lib.DB;
-import ucb.tecweb.model.Producto;
-import ucb.tecweb.model.ProductoDTO;
-import ucb.tecweb.model.ProductoRepository;
+import ucb.tecweb.model.producto.Producto;
+import ucb.tecweb.model.producto.ProductoDTO;
+import ucb.tecweb.model.producto.ProductoRepository;
 
 public class PgProductoRepository implements ProductoRepository {
     public Producto getByID(int id) {
