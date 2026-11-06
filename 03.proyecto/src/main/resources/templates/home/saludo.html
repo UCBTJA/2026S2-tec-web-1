@@ -5,6 +5,8 @@
     <title>Inicio</title>
 </head>
 <body>
+    <header th:replace="fragments/menu :: menu"></header>
+
     <main class="container py-4">
         <h1>Saludos</h1>
         <p>Hola, bienvenido a la página de inicio <strong th:text="${nombre}">Pedro</strong>.</p>
