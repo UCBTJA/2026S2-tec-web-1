@@ -4,20 +4,18 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-//import org.springfr
-import org.springframework.web.bind.annotation.RestController;
 
-import ucb.tecweb.endpoints.ProductoJsonPresenter;
 import ucb.tecweb.infrastructure.pg.PgProductoRepository;
 import ucb.tecweb.model.producto.ProductoDTO;
 import ucb.tecweb.model.producto.ProductoRepository;
 import ucb.tecweb.model.producto.ProductoService;
-import ucb.tecweb.view.ProductoPresenter;
 
-@RestController
+@Controller
 public class ProductoController {
     private ProductoService service;
 
@@ -26,51 +24,47 @@ public class ProductoController {
         this.service = new ProductoService(repo);
     }
 
-    @GetMapping("/")
-    public String index() {
-        ProductoPresenter presenter = new ProductoPresenter();
+    @GetMapping("/productos")
+    public String index(Model model) {
         List<ProductoDTO> catalogo = this.service.search("");
-        return presenter.index(catalogo);
+        model.addAttribute("productos", catalogo);
+        return "productos/index"; // -> templates/productos/index.html
     }
 
-    @GetMapping(value = "/json", produces = "application/json")
-    public String indexJson() {
-        ProductoJsonPresenter presenter = new ProductoJsonPresenter();
-        List<ProductoDTO> catalogo = this.service.search("");
-        return presenter.index(catalogo);
+    @GetMapping("/productos/create")
+    public String createForm() {
+        return "productos/create"; // -> templates/productos/create.html
     }
 
-    @PostMapping("/saludo")
-    public String greeting(@RequestParam String name, @RequestParam int edad) {
-        return "Hola " + name + ", tienes " + edad + " años";
-    }
-
-    @PostMapping("/create")
+    @PostMapping("/productos/create")
     public ResponseEntity<Void> create(@RequestParam String nombre) {
-        ProductoRepository repo = new PgProductoRepository();
-        ProductoService service = new ProductoService(repo);
-
-        service.crearProducto(nombre);
+        this.service.crearProducto(nombre);
         return redirectToIndex();
     }
 
-    @PostMapping("/update")
+    @GetMapping("/productos/update")
+    public String updateForm(@RequestParam int id, Model model) {
+        ProductoDTO producto = this.service.getProductoById(id);
+        if (producto == null) {
+            return "redirect:/productos";
+        }
+        model.addAttribute("producto", producto);
+        return "productos/update"; // -> templates/productos/update.html
+    }
+
+    @PostMapping("/productos/update")
     public ResponseEntity<Void> update(@RequestParam int id, @RequestParam String nombre) {
-        ProductoRepository repo = new PgProductoRepository();
-        ProductoService service = new ProductoService(repo);
-        service.actualizarProducto(id, nombre);
+        this.service.actualizarProducto(id, nombre);
         return redirectToIndex();
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/productos/delete")
     public ResponseEntity<Void> delete(@RequestParam int id) {
-        ProductoRepository repo = new PgProductoRepository();
-        ProductoService service = new ProductoService(repo);
-        service.eliminarProducto(id);
+        this.service.eliminarProducto(id);
         return redirectToIndex();
     }
 
     private ResponseEntity<Void> redirectToIndex() {
-        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(java.net.URI.create("/")).build();
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(java.net.URI.create("/productos")).build();
     }
 }

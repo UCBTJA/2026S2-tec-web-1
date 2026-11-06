@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layouts/base :: layout(~{::title}, ~{::main})}">
+
+<head>
+    <title>Crear Producto</title>
+</head>
+
+<body>
+    <main class="container py-4">
+        <h1>Crear Producto</h1>
+
+        <form th:action="@{/productos/create}" method="post">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" maxlength="100" required autofocus>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <a class="btn btn-secondary" th:href="@{/productos}">Cancelar</a>
+        </form>
+    </main>
+</body>
+
+</html>

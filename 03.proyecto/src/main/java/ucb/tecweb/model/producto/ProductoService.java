@@ -38,4 +38,11 @@ public class ProductoService {
         return this.productoRepository.delete(producto.getID());
     }
 
+    public ProductoDTO getProductoById(int id) {
+        Producto producto = this.productoRepository.getByID(id);
+        if (producto != null) {
+            return new ProductoDTO(producto.getID(), producto.getNombre());
+        }
+        return null;
+    }
 }

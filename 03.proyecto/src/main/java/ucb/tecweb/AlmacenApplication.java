@@ -1,4 +1,4 @@
-package ucb.tecweb.almacen;
+package ucb.tecweb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

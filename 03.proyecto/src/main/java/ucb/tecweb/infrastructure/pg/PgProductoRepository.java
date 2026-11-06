@@ -17,8 +17,8 @@ public class PgProductoRepository implements ProductoRepository {
         Connection conn = DB.getConnection();
         try {
             StringBuilder sb = new StringBuilder();
-            sb.append("SELECT id, nombre)")
-                    .append("FROM almacen.producto")
+            sb.append("SELECT id, nombre ")
+                    .append("FROM almacen.producto ")
                     .append("WHERE id = ?");
             PreparedStatement stmt = conn.prepareStatement(sb.toString());
             stmt.setInt(1, id);
